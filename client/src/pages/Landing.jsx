@@ -1,6 +1,7 @@
 /* ============================================================
    TaskFlow – Landing Page
    ============================================================ */
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -99,7 +100,7 @@ const STEPS = [
 
 /* ── FAQ Item component (accordion) ── */
 const FAQItem = ({ q, a }) => {
-  const [open, setOpen] = require('react').useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <div
       style={{

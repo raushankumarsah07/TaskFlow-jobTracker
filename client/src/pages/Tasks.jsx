@@ -231,11 +231,11 @@ const Tasks = () => {
     try {
       const { data } = await tasksAPI.list({
         search:   debouncedSearch,
-        status:   filter.status,
-        priority: filter.priority,
+        status:   filter?.status   || '',
+        priority: filter?.priority || '',
         limit:    50,
       });
-      setTasks(data.data.tasks);
+      setTasks(data?.data?.tasks || []);
     } catch { toast.error('Failed to load tasks'); }
     finally  { setLoading(false); }
   }, [view, debouncedSearch, filter]);
@@ -246,7 +246,7 @@ const Tasks = () => {
     setLoading(true);
     try {
       const { data } = await tasksAPI.board();
-      setBoard(data.data || {});
+      setBoard(data?.data || {});
     } catch { toast.error('Failed to load board'); }
     finally  { setLoading(false); }
   }, [view]);
@@ -317,9 +317,9 @@ const Tasks = () => {
     }));
 
   /* ── Filtered tasks (list) ── */
-  const filteredTasks = tasks.filter((t) => {
-    if (filter.status   && t.status   !== filter.status)   return false;
-    if (filter.priority && t.priority !== filter.priority) return false;
+  const filteredTasks = (tasks || []).filter((t) => {
+    if (filter?.status   && t.status   !== filter.status)   return false;
+    if (filter?.priority && t.priority !== filter.priority) return false;
     return true;
   });
 

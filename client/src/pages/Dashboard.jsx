@@ -51,36 +51,48 @@ const StatCard = ({ icon: Icon, label, value, suffix = '', color, trend, delay =
     initial={{ opacity: 0, y: 24 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.4, delay }}
+    whileHover={{ y: -4, transition: { duration: 0.2 } }}
     style={{
       background:   'var(--bg-card)',
       borderRadius: 'var(--radius-xl)',
-      padding:      '24px',
+      padding:      '22px 20px',
       border:       '1px solid var(--border)',
       boxShadow:    'var(--shadow-card)',
       position:     'relative',
       overflow:     'hidden',
+      cursor:       'default',
     }}
   >
-    {/* Gradient blob */}
+    {/* Colored top bar */}
     <div style={{
-      position: 'absolute', top: -20, right: -20,
-      width: 100, height: 100, borderRadius: '50%',
-      background: `${color}20`, filter: 'blur(20px)',
+      position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+      background: `linear-gradient(90deg, ${color}, ${color}88)`,
+      borderRadius: 'var(--radius-xl) var(--radius-xl) 0 0',
     }} />
 
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16, position: 'relative' }}>
+    {/* Background glow */}
+    <div style={{
+      position: 'absolute', bottom: -30, right: -20,
+      width: 120, height: 120, borderRadius: '50%',
+      background: `${color}12`, filter: 'blur(30px)',
+      pointerEvents: 'none',
+    }} />
+
+    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14, position: 'relative' }}>
       <div style={{
-        width: 44, height: 44, borderRadius: 12,
-        background: `${color}18`,
+        width: 42, height: 42, borderRadius: 12,
+        background: `${color}20`,
+        border: `1px solid ${color}30`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <Icon size={20} color={color} />
+        <Icon size={19} color={color} />
       </div>
       {trend !== undefined && (
         <span style={{
-          fontSize: 'var(--text-xs)', fontWeight: 600,
-          color: trend >= 0 ? 'var(--success)' : 'var(--danger)',
-          background: trend >= 0 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
+          fontSize: 'var(--text-xs)', fontWeight: 700,
+          color: trend >= 0 ? '#10b981' : '#ef4444',
+          background: trend >= 0 ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)',
+          border: `1px solid ${trend >= 0 ? 'rgba(16,185,129,0.25)' : 'rgba(239,68,68,0.25)'}`,
           padding: '3px 8px', borderRadius: 99,
         }}>
           {trend >= 0 ? '↑' : '↓'} {Math.abs(trend)}%
@@ -88,10 +100,16 @@ const StatCard = ({ icon: Icon, label, value, suffix = '', color, trend, delay =
       )}
     </div>
 
-    <div style={{ fontSize: '2.25rem', fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1 }}>
+    <div style={{ fontSize: '2rem', fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.1, position: 'relative' }}>
       <AnimatedNumber value={value} />{suffix}
     </div>
-    <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 6 }}>{label}</div>
+    <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 6, fontWeight: 500 }}>{label}</div>
+
+    {/* Accent line */}
+    <div style={{
+      position: 'absolute', bottom: 0, left: 0, right: 0, height: 2,
+      background: `linear-gradient(90deg, transparent, ${color}40, transparent)`,
+    }} />
   </motion.div>
 );
 
