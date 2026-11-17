@@ -5,12 +5,12 @@ import { createApp } from '../../app.js';
 let app;
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI, { dbName: 'taskflow_test' });
+  await mongoose.connect(process.env.MONGO_URI, { dbName: `taskflow_auth_${Date.now()}` });
   app = createApp();
 });
 
 afterAll(async () => {
-  await mongoose.connection.dropDatabase();
+  try { await mongoose.connection.dropDatabase(); } catch (_) {}
   await mongoose.disconnect();
 });
 

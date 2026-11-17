@@ -1,9 +1,14 @@
 /**
  * Task Service — full CRUD, subtasks, bulk ops, recurring tasks, stats
+ * Emits Socket.IO events after every mutation for real-time sync.
  */
 import { Task } from '../models/Task.js';
 import { ActivityLog } from '../models/ActivityLog.js';
 import { ApiError } from '../utils/ApiError.js';
+import { EVENTS } from '../sockets/events.js';
+import { emitToUser } from '../utils/socketEmitter.js';
+
+const getIO = async () => (await import('../config/socket.js')).io;
 
 const buildFilter = (userId, query) => {
   const filter = { userId, isDeleted: false };
@@ -73,6 +78,8 @@ export const taskService = {
   async create(userId, data) {
     const task = await Task.create({ userId, ...data });
     await ActivityLog.create({ userId, action: 'CREATE_TASK', entity: 'Task', entityId: task._id, meta: { title: task.title } });
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.TASK_CREATED, { task });
     return task;
   },
 
@@ -83,6 +90,8 @@ export const taskService = {
     Object.assign(task, data);
     await task.save();
     await ActivityLog.create({ userId, action: 'UPDATE_TASK', entity: 'Task', entityId: task._id });
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.TASK_UPDATED, { task });
     return task;
   },
 
@@ -92,6 +101,8 @@ export const taskService = {
     if (!task) throw new ApiError(404, 'Task not found');
     task.status = status;
     await task.save();
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.TASK_STATUS_CHANGED, { taskId: id, status });
     return task;
   },
 
@@ -140,6 +151,8 @@ export const taskService = {
     task.deletedAt = new Date();
     await task.save();
     await ActivityLog.create({ userId, action: 'DELETE_TASK', entity: 'Task', entityId: task._id });
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.TASK_DELETED, { taskId: id });
     return task;
   },
 

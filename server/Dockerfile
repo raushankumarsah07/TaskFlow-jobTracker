@@ -12,5 +12,5 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --chown=taskflow:nodejs . .
 RUN mkdir -p uploads logs && chown -R taskflow:nodejs uploads logs
 USER taskflow
-EXPOSE 5000
+EXPOSE 5001
 CMD ["node", "server.js"]

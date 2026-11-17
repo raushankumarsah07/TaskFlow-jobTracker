@@ -92,6 +92,8 @@ export const applicationService = {
     Object.assign(app, data);
     await app.save();
     await ActivityLog.create({ userId, action: 'UPDATE_APPLICATION', entity: 'JobApplication', entityId: app._id, meta: { company: app.company } });
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.APPLICATION_UPDATED, { application: app });
     return app;
   },
 
@@ -110,6 +112,12 @@ export const applicationService = {
       entityId: app._id,
       meta: { from: prevStatus, to: status },
     });
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.APPLICATION_STATUS_CHANGED, {
+      application: app,
+      prevStatus,
+      newStatus: status,
+    });
     return app;
   },
 
@@ -123,6 +131,8 @@ export const applicationService = {
       },
     }));
     await JobApplication.bulkWrite(ops);
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.APPLICATION_REORDERED, { updates });
     return { reordered: updates.length };
   },
 
@@ -134,6 +144,8 @@ export const applicationService = {
     app.deletedAt = new Date();
     await app.save();
     await ActivityLog.create({ userId, action: 'DELETE_APPLICATION', entity: 'JobApplication', entityId: app._id });
+    const io = await getIO();
+    emitToUser(io, userId.toString(), EVENTS.APPLICATION_DELETED, { applicationId: id });
     return app;
   },
 

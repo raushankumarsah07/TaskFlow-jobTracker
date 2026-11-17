@@ -33,7 +33,7 @@ const validTask = {
 };
 
 beforeAll(async () => {
-  await mongoose.connect(process.env.MONGO_URI, { dbName: 'taskflow_test' });
+  await mongoose.connect(process.env.MONGO_URI, { dbName: `taskflow_api_${Date.now()}` });
   app = createApp();
 
   // Register + login to get access token
@@ -42,7 +42,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.dropDatabase();
+  try { await mongoose.connection.dropDatabase(); } catch (_) {}
   await mongoose.disconnect();
 });
 

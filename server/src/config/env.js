@@ -8,7 +8,7 @@ required.forEach((key) => {
 
 export const env = {
   nodeEnv: process.env.NODE_ENV || 'development',
-  port: parseInt(process.env.PORT, 10) || 5000,
+  port: parseInt(process.env.PORT, 10) || 5001,
   mongoUri: process.env.MONGO_URI,
   jwt: {
     accessSecret: process.env.JWT_ACCESS_SECRET,

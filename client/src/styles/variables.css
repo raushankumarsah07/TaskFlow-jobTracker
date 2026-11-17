@@ -1,0 +1,150 @@
+/* ============================================================
+   TaskFlow – CSS Custom Properties (Design Tokens)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* ── Primary gradient palette ── */
+  --primary-50:  #eef2ff;
+  --primary-100: #e0e7ff;
+  --primary-200: #c7d2fe;
+  --primary-400: #818cf8;
+  --primary-500: #6366f1;   /* indigo */
+  --primary-600: #4f46e5;
+  --primary-700: #4338ca;
+
+  --purple-500: #a855f7;
+  --pink-500:   #ec4899;
+
+  /* Gradient presets */
+  --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  --gradient-secondary: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-hero: linear-gradient(135deg, #1e1b4b 0%, #312e81 30%, #4c1d95 60%, #6d28d9 100%);
+  --gradient-card: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(168,85,247,0.05) 100%);
+
+  /* ── Accent / semantic ── */
+  --accent:   #f59e0b;
+  --success:  #10b981;
+  --warning:  #f59e0b;
+  --danger:   #ef4444;
+  --info:     #0ea5e9;
+
+  /* ── Neutrals (light theme) ── */
+  --bg-primary:   #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary:  #f1f5f9;
+  --bg-card:      #ffffff;
+  --bg-hover:     #f8fafc;
+
+  --border:       #e2e8f0;
+  --border-light: #f1f5f9;
+
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+  --text-inverse:   #ffffff;
+
+  /* ── Sidebar ── */
+  --sidebar-bg:    #0f172a;
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 72px;
+
+  /* ── Glassmorphism ── */
+  --glass-bg:     rgba(255, 255, 255, 0.70);
+  --glass-border: rgba(255, 255, 255, 0.40);
+  --glass-shadow: 0 8px 32px rgba(99, 102, 241, 0.12);
+  --glass-blur:   blur(16px);
+
+  /* ── Shadows ── */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,0.16);
+  --shadow-primary: 0 8px 24px rgba(99,102,241,0.30);
+  --shadow-card: 0 2px 12px rgba(15,23,42,0.06), 0 0 0 1px rgba(15,23,42,0.04);
+
+  /* ── Radius ── */
+  --radius-sm:  8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl:24px;
+  --radius-full:9999px;
+
+  /* ── Typography ── */
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.125rem;
+  --text-xl:   1.25rem;
+  --text-2xl:  1.5rem;
+  --text-3xl:  1.875rem;
+  --text-4xl:  2.25rem;
+  --text-5xl:  3rem;
+
+  /* ── Transitions ── */
+  --transition-fast:   all 0.15s ease;
+  --transition-base:   all 0.25s ease;
+  --transition-slow:   all 0.4s ease;
+  --transition-spring: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Z-index ── */
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-toast:     500;
+  --z-tooltip:   600;
+
+  /* ── Spacing ── */
+  --navbar-height: 64px;
+
+  /* ── Priority colors ── */
+  --priority-low:    #22c55e;
+  --priority-medium: #f59e0b;
+  --priority-high:   #f97316;
+  --priority-urgent: #ef4444;
+
+  /* ── Status colors ── */
+  --status-wishlist:  #6366f1;
+  --status-applied:   #0ea5e9;
+  --status-interview: #f59e0b;
+  --status-offer:     #10b981;
+  --status-rejected:  #ef4444;
+}
+
+/* ── Dark theme ── */
+[data-theme='dark'] {
+  --bg-primary:   #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary:  #334155;
+  --bg-card:      #1e293b;
+  --bg-hover:     #334155;
+
+  --border:       #334155;
+  --border-light: #1e293b;
+
+  --text-primary:   #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+  --text-inverse:   #0f172a;
+
+  --glass-bg:     rgba(30, 41, 59, 0.80);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.40);
+
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+  --shadow-xl: 0 16px 48px rgba(0,0,0,0.6);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
+
+  --gradient-card: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(168,85,247,0.08) 100%);
+}
