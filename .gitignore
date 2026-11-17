@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment
+.env
+**/.env
+!**/.env.example
+
+# Build outputs
+dist/
+build/
+client/dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker volumes
+.docker/
+
+# Uploads
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Test coverage
+coverage/
+*.lcov
+
+# Misc
+.cache
+.temp

@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: taskflow-mongo-dev
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-dev-data:/data/db
+    networks:
+      - taskflow-dev-network
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: builder
+    container_name: taskflow-server-dev
+    command: sh -c "npm install && node --watch server.js"
+    env_file: ./server/.env
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/taskflow
+      - NODE_ENV=development
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    networks:
+      - taskflow-dev-network
+
+  client:
+    image: node:20-alpine
+    container_name: taskflow-client-dev
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    env_file: ./client/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - server
+    networks:
+      - taskflow-dev-network
+
+volumes:
+  mongo-dev-data:
+
+networks:
+  taskflow-dev-network:
+    driver: bridge

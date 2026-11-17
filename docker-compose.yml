@@ -1,0 +1,83 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: taskflow-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: taskflow
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - taskflow-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: taskflow-server
+    restart: unless-stopped
+    env_file: ./server/.env
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/taskflow
+    ports:
+      - "5000:5000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    volumes:
+      - server-uploads:/app/uploads
+    networks:
+      - taskflow-network
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: taskflow-client
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    networks:
+      - taskflow-network
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: taskflow-mongo-express
+    restart: unless-stopped
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin123
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+    ports:
+      - "8081:8081"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - taskflow-network
+    profiles:
+      - tools
+
+volumes:
+  mongo-data:
+  server-uploads:
+
+networks:
+  taskflow-network:
+    driver: bridge
